@@ -1,11 +1,18 @@
 package com.webservicespring.project.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String email;
     private String name;
     private String phone;
     private String password;
@@ -13,8 +20,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String phone, String password) {
+    public User(Long id, String email, String name, String phone, String password) {
         this.id = id;
+        this.email = email;
         this.name = name;
         this.phone = phone;
         this.password = password;
@@ -50,6 +58,14 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
