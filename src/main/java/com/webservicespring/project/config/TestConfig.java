@@ -1,14 +1,8 @@
 package com.webservicespring.project.config;
 
-import com.webservicespring.project.entities.Category;
-import com.webservicespring.project.entities.Order;
-import com.webservicespring.project.entities.Product;
-import com.webservicespring.project.entities.User;
+import com.webservicespring.project.entities.*;
 import com.webservicespring.project.entities.enums.OrderStatus;
-import com.webservicespring.project.repositories.CategoryRepository;
-import com.webservicespring.project.repositories.OrderRepository;
-import com.webservicespring.project.repositories.ProductRepository;
-import com.webservicespring.project.repositories.UserRepository;
+import com.webservicespring.project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +27,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 
     @Override
@@ -69,5 +66,12 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+        OrderItem oi1 = new OrderItem(o1, p1, p1.getPrice(), 2);
+        OrderItem oi2 = new OrderItem(o1, p3, p3.getPrice(), 1);
+        OrderItem oi3 = new OrderItem(o2, p3, p3.getPrice(), 2);
+        OrderItem oi4 = new OrderItem(o3, p5, p5.getPrice(), 2);
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 }
