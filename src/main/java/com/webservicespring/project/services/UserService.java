@@ -2,7 +2,9 @@ package com.webservicespring.project.services;
 
 import com.webservicespring.project.entities.User;
 import com.webservicespring.project.repositories.UserRepository;
+import com.webservicespring.project.resources.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +28,8 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        try {
             Optional<User> obj = userRepository.findById(id);
-            return obj.get();
-        } catch (RuntimeException e) {
-            e.getMessage();
-            throw new RuntimeException
-                    ("Erro ao tentar buscar usuário por id", e);
-        }
+            return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
