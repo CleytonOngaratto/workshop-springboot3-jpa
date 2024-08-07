@@ -16,24 +16,28 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> findAll() {
-        try{
-        return userRepository.findAll();
-        } catch (RuntimeException e ){
+        try {
+            return userRepository.findAll();
+        } catch (RuntimeException e) {
             e.getMessage();
             throw new RuntimeException
                     ("Erro ao tentar buscar todos os usuários", e);
         }
     }
 
-    public User findById(Long id){
-        try{
+    public User findById(Long id) {
+        try {
             Optional<User> obj = userRepository.findById(id);
             return obj.get();
-        } catch (RuntimeException e ){
+        } catch (RuntimeException e) {
             e.getMessage();
             throw new RuntimeException
                     ("Erro ao tentar buscar usuário por id", e);
         }
+    }
+
+    public User insert(User obj) {
+        return userRepository.save(obj);
     }
 
 }
