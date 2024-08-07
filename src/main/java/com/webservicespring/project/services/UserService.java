@@ -40,8 +40,20 @@ public class UserService {
         return userRepository.save(obj);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User update(Long id, User obj) {
+        User entity = userRepository.getReferenceById(id); // diferente do findById, esse aqui apenas monitora o objeto pelo jpa, sem trazer de fato do banco de dados. Mais eficiente
+        updateData(entity, obj);
+        return userRepository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
     }
 
 }
