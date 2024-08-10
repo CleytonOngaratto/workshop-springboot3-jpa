@@ -14,22 +14,20 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+    private static final String RESOURCE_NOT_FOUND = "Resource not found";
+    private static final String DATABASE_ERROR = "Database error";
+
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> resourceNotFound
-            (ResourceNotFoundException e){
-//        String error = "Resource not found";
-//        HttpStatus status = HttpStatus.NOT_FOUND;
-//        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<StandardError> resourceNotFound
+            (ResourceNotFoundException e, HttpServletRequest request){
+        StandardError err = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), RESOURCE_NOT_FOUND, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request){
-        String error = "Database error";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
-       return ResponseEntity.status(status).body(err);
+        StandardError err = new StandardError(Instant.now(), HttpStatus.BAD_REQUEST.value(), DATABASE_ERROR, e.getMessage(), request.getRequestURI());
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
 
     }
