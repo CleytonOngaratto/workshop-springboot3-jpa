@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.Instant;
 
@@ -14,12 +15,13 @@ import java.time.Instant;
 public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<StandardError> resourceNotFound
-            (ResourceNotFoundException e, HttpServletRequest request){
-        String error = "Resource not found";
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> resourceNotFound
+            (ResourceNotFoundException e){
+//        String error = "Resource not found";
+//        HttpStatus status = HttpStatus.NOT_FOUND;
+//        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DatabaseException.class)
