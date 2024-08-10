@@ -1,4 +1,4 @@
-package com.webservicespring.project.resources.exception;
+package com.webservicespring.project.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 
